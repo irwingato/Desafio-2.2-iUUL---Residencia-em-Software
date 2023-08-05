@@ -2,12 +2,16 @@ import { ConversorMoedasModel } from './model';
 import { ConversorMoedasView } from './view';
 
 export class ConversorMoedasController {
-  private model: ConversorMoedasModel; // Instância do modelo (ConversorMoedasModel)
-  private view: ConversorMoedasView;   // Instância da visualização (ConversorMoedasView)
+  // Instância do modelo (ConversorMoedasModel)
+  private model: ConversorMoedasModel; 
+   // Instância da visualização (ConversorMoedasView)
+  private view: ConversorMoedasView;  
 
   constructor() {
-    this.model = new ConversorMoedasModel(); // Inicialização da instância do modelo
-    this.view = new ConversorMoedasView();   // Inicialização da instância da visualização
+    // Inicialização da instância do modelo
+    this.model = new ConversorMoedasModel(); 
+    // Inicialização da instância da visualização
+    this.view = new ConversorMoedasView();   
   }
 
   async converterMoeda() {
@@ -16,31 +20,36 @@ export class ConversorMoedasController {
 
       if (!moedaOrigem) {
         this.view.exibirMensagem('Conversão encerrada.');
-        break; // Encerra o loop se o usuário não fornecer a moeda de origem
+        // Encerra o loop se o usuário não fornecer a moeda de origem
+        break; 
       }
 
       if (moedaOrigem.length !== 3) {
         this.view.exibirMensagem('A moeda de origem deve ter exatamente 3 caracteres.\n');
-        continue; // Pula para a próxima iteração se a moeda de origem não tiver 3 caracteres
+        // Pula para a próxima iteração se a moeda de origem não tiver 3 caracteres
+        continue; 
       }
 
       const moedaOrigemValida = await this.model.validarMoeda(moedaOrigem);
       if (!moedaOrigemValida) {
         this.view.exibirMensagem('A moeda de origem não é válida.\n');
-        continue; // Pula para a próxima iteração se a moeda de origem não for válida
+        // Pula para a próxima iteração se a moeda de origem não for válida
+        continue; 
       }
 
       const moedaDestino = this.view.solicitarEntrada('Digite a moeda de destino (3 caracteres): ');
 
       if (moedaDestino.length !== 3) {
         this.view.exibirMensagem('A moeda de destino deve ter exatamente 3 caracteres.\n');
-        continue; // Pula para a próxima iteração se a moeda de destino não tiver 3 caracteres
+        // Pula para a próxima iteração se a moeda de destino não tiver 3 caracteres
+        continue; 
       }
 
       const moedaDestinoValida = await this.model.validarMoeda(moedaDestino);
       if (!moedaDestinoValida) {
         this.view.exibirMensagem('A moeda de destino não é válida.\n');
-        continue; // Pula para a próxima iteração se a moeda de destino não for válida
+        // Pula para a próxima iteração se a moeda de destino não for válida
+        continue; 
       }
 
       const valorMonetarioString = this.view.solicitarEntrada('Digite o valor monetario: ');
@@ -48,15 +57,18 @@ export class ConversorMoedasController {
 
       if (isNaN(valorMonetario) || valorMonetario <= 0) {
         this.view.exibirMensagem('O valor monetário deve ser um número positivo maior que zero.\n');
-        continue; // Pula para a próxima iteração se o valor monetário não for válido
+        // Pula para a próxima iteração se o valor monetário não for válido
+        continue; 
       }
 
       try {
         const taxaConversao = await this.model.obterTaxaCambio(moedaOrigem, moedaDestino);
         const valorConvertido = valorMonetario * taxaConversao;
-        this.view.exibirResultado(valorConvertido, moedaDestino, taxaConversao, moedaOrigem); // Exibe o resultado da conversão
+        // Exibe o resultado da conversão
+        this.view.exibirResultado(valorConvertido, moedaDestino, taxaConversao, moedaOrigem); 
       } catch (erro) {
-        this.view.exibirErroComunicacaoAPI(erro.message); // Exibe uma mensagem de erro de comunicação com a API
+        // Exibe uma mensagem de erro de comunicação com a API
+        this.view.exibirErroComunicacaoAPI(erro.message); 
       }
     }
   }

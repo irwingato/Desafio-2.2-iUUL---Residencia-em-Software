@@ -10,8 +10,8 @@ export class ConversorMoedasModel {
     const url = 'https://api.exchangerate.host/symbols';
     const response = await axios.get<{ symbols: { [key: string]: string } }>(url);
     const symbols = response.data.symbols;
-
-    return symbols.hasOwnProperty(moeda); // Verifica se a moeda está na lista de símbolos retornada pela API
+    // Verifica se a moeda está na lista de símbolos retornada pela API
+    return symbols.hasOwnProperty(moeda); 
   }
 
   // Método assíncrono para obter a taxa de câmbio entre duas moedas
